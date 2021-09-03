@@ -1,6 +1,7 @@
 using BlazorDemoApp.Areas.Identity;
 using BlazorDemoApp.Data;
 using BlazorDemoApp.Models;
+using BlazorDemoApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,6 +49,10 @@ namespace BlazorDemoApp
             services.AddControllersWithViews();
             services.AddRazorPages();
             //on the top 3 services... lines new
+
+            
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
