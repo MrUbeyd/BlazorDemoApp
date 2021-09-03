@@ -11,7 +11,6 @@ using Microsoft.Extensions.Logging;
 
 namespace BlazorDemoApp.Areas.Identity.Pages.Account
 {
-    [IgnoreAntiforgeryToken]
     [AllowAnonymous]
     public class LogoutModel : PageModel
     {
