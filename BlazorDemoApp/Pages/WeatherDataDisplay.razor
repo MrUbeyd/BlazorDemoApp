@@ -1,0 +1,131 @@
+﻿@page "/weather"
+@using BlazorDemoApp.Data
+@inject WeatherDataService WeatherDataService
+@using BlazorDateRangePicker
+@inject IJSRuntime JS
+
+
+<div>
+
+    <h3>Istanbul 10 Years(2009-2019) Weather Data</h3>
+
+    <br />
+    <div class="col-3">
+        <DateRangePicker OnRangeSelect="onRangeSelect" MinDate="StartDate" @bind-StartDate="TodayDate" MaxDate="EndDate">
+            <PickerTemplate>
+                <div id="@context.ParentId" @onclick="context.Toggle" style="background:#fff;cursor:pointer;padding:5px 10px; width:250px; border:1px solid #ccc;">
+                    <i class="oi oi-calendar"></i>&nbsp;
+                    <span>@context.FormattedRange @(string.IsNullOrEmpty(context.FormattedRange)?"Choose dates ...":"")</span>
+                    <i class="oi oi-chevron-bottom float-right"></i>
+                </div>
+            </PickerTemplate>
+
+        </DateRangePicker>
+    </div>
+    
+    <br />
+    
+
+</div>
+
+
+    @if (weatherDatas == null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Condition</th>
+
+                    <th>MaxTemp</th>
+                    <th>MinTemp</th>
+
+                    <th>AvgWind</th>
+                    <th>AvgHumidity</th>
+                    <th>AvgPressure</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var data in weatherDatas)
+                {
+                    <tr>
+                        <td>@data.Date</td>
+                        <td>@data.Condition</td>
+
+                        <td>@data.MaxTemp</td>
+                        <td>@data.MinTemp</td>
+
+                        <td>@data.AvgWind</td>
+                        <td>@data.AvgHumidity</td>
+                        <td>@data.AvgPressure</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+<div>
+    <button @onclick="GenerateGraph" class="btn btn-outline-info">Generate Graph</button>
+    <div id="chartdiv"></div>
+    <br />
+</div>
+
+
+
+
+
+
+    @code {
+
+        DateTimeOffset? TodayDate { get; set; } = DateTime.Now.AddYears(-12);
+        DateTimeOffset? StartDate { get; set; } = new DateTime(2009, 01, 01);
+        DateTimeOffset? EndDate { get; set; } = new DateTime(2019, 09, 02);
+
+        public List<WeatherData> weatherDatas = new List<WeatherData>();
+
+        public List<WeatherDataForGraph> weatherDatasGraph = new List<WeatherDataForGraph>();
+
+        public DateTime rangeStart = new DateTime();
+        public DateTime rangeEnd = new DateTime();
+
+        public void onRangeSelect(DateRange range)
+        {
+            rangeStart = range.Start.DateTime;
+            rangeEnd = range.End.DateTime;
+
+            ReadCsv();
+            ReadCsvForGraph();
+            
+        }
+
+
+
+        private List<WeatherData> ReadCsv()
+        {
+            weatherDatas = WeatherDataService.GetWeatherDatas(rangeStart, rangeEnd);
+            return weatherDatas;
+        }
+
+        private List<WeatherDataForGraph> ReadCsvForGraph()
+        {
+            weatherDatasGraph = WeatherDataService.GetWeatherDataForGraph(rangeStart, rangeEnd);
+            return weatherDatasGraph;
+        }
+
+
+        protected override void OnInitialized()
+        {
+            //ReadCsv();
+            //ReadCsvForGraph();
+        }
+
+        private async Task GenerateGraph()
+        {
+           
+            await JS.InvokeVoidAsync("CreateGraph",weatherDatasGraph); // bu parametre ile js e data aktarıcaz ...
+        }
+    }

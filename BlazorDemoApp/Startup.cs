@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace BlazorDemoApp
 {
     public class Startup
@@ -54,10 +55,16 @@ namespace BlazorDemoApp
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
+            services.Configure<ReCHAPTCHASettings>(Configuration.GetSection("GooglereCaptcha"));
+            services.AddTransient<GoogleReCaptchaServices>();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
             services.AddSingleton<WeatherForecastService>();
+
+            services.AddScoped<WeatherDataService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

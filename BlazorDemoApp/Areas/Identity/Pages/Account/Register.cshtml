@@ -1,8 +1,8 @@
 ﻿@page
 @model RegisterModel
-@{
-    ViewData["Title"] = "Register";
-}
+@using Microsoft.Extensions.Options
+@inject IOptions<BlazorDemoApp.Models.ReCHAPTCHASettings> GoogleReCHAPTCHA
+@{ ViewData["Title"] = "Register"; }
 
 <h1>@ViewData["Title"]</h1>
 
@@ -37,6 +37,9 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+
+            @*<input asp-for="Input.Token" />*@
+
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
@@ -44,34 +47,45 @@
         <section>
             <h4>Use another service to register.</h4>
             <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
+            @{ if ((Model.ExternalLogins?.Count ?? 0) == 0)
                 {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
+    <div>
+        <p>
+            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+            for details on setting up this ASP.NET application to support logging in via external services.
+        </p>
+
+    </div> }
+else
+{
+<form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+    <div>
+        <p>
+            @foreach (var provider in Model.ExternalLogins)
+            {
+<button type="submit" class="btn btn-primary" name="provider" onclick="onClick()" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>}
+        </p>
+    </div>
+</form> } }
+            @*<div class="form-group">
+                <div class="g-recaptcha" data-sitekey="6LcFqmMcAAAAACqhqWRRjODkb2-BsbFr3l_75Zsa"></div>
+            </div>*@
         </section>
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    @*<script src="https://www.google.com/recaptcha/api.js?render=@GoogleReCHAPTCHA.Value.ReCHAPTCHA_site_key" async defer></script>
+
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6LcFqmMcAAAAACqhqWRRjODkb2-BsbFr3l_75Zsa', { action: 'submit' }).then(function (token) {
+                console.log(token);
+          });
+      });
+    </script>*@
+
+
 }
