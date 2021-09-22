@@ -121,10 +121,7 @@ namespace BlazorDemoApp.Data
                 int maxTmp = 0;
                 int minTmp = 0;
 
-                // yeni bir liste olustumak gerek parametreleri date avgTemp olan yeni bir class lazým yani üstteki liste gibi oluþturabilirsin
-                // sonrasýnda maxTmp date minTmp gibi deðerler kullanarak listeyi olustur ve bu listeyi dönecek fonksiyonu yaz 
-                // create graph (js) fonksiyonuna yolla oraya parametre verdim ancak bu þekilde dýþarýdan veri çekebiliyoruz js içine galiba ???
-
+                
                 for (int row = 1; row <= totalRow; row++)
                 {
                     
@@ -155,12 +152,12 @@ namespace BlazorDemoApp.Data
                         if (column == 3 && flag == 1)
                         {
                             
-                            maxTmp = Int32.Parse(worksheet.Cells[row, column].Value.ToString()); // NEW !!!
+                            maxTmp = Int32.Parse(worksheet.Cells[row, column].Value.ToString()); 
                         }
                         if (column == 4 && flag == 1)
                         {
                            
-                            minTmp = Int32.Parse(worksheet.Cells[row, column].Value.ToString()); // NEW !!!
+                            minTmp = Int32.Parse(worksheet.Cells[row, column].Value.ToString()); 
                         }
 
                        
