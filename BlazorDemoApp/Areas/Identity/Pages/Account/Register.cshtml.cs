@@ -24,19 +24,19 @@ namespace BlazorDemoApp.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly GoogleReCaptchaServices _GoogleReChaptcaServices;
+        
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, GoogleReCaptchaServices googleReCaptchaServices)
+            IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _GoogleReChaptcaServices = googleReCaptchaServices;
+            
         }
 
         [BindProperty]
@@ -72,8 +72,7 @@ namespace BlazorDemoApp.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            //[Required]
-            public string Token { get; set; }
+           
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -87,16 +86,7 @@ namespace BlazorDemoApp.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            //Google reCaptcha 
-            var _GoogleReCaptcha = _GoogleReChaptcaServices.VerifyReCaptcha(Input.Token);
-
-
-            //if score <=0.5 this means not human its a robot 
-            //if(!_GoogleReCaptcha.Result.success && _GoogleReCaptcha.Result.score <= 0.5)
-            //{
-                //ModelState.AddModelError(string.Empty, "Please prove you are human otherwise you will be treated as a robot...");
-                //return Page();
-            //}
+           
 
             if (ModelState.IsValid)
             {

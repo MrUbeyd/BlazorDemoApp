@@ -55,9 +55,6 @@ namespace BlazorDemoApp
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
-            services.Configure<ReCHAPTCHASettings>(Configuration.GetSection("GooglereCaptcha"));
-            services.AddTransient<GoogleReCaptchaServices>();
-
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();

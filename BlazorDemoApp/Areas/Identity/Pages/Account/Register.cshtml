@@ -1,7 +1,7 @@
 ﻿@page
 @model RegisterModel
 @using Microsoft.Extensions.Options
-@inject IOptions<BlazorDemoApp.Models.ReCHAPTCHASettings> GoogleReCHAPTCHA
+
 @{ ViewData["Title"] = "Register"; }
 
 <h1>@ViewData["Title"]</h1>
@@ -38,7 +38,6 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
 
-            @*<input asp-for="Input.Token" />*@
 
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
@@ -67,9 +66,7 @@ else
         </p>
     </div>
 </form> } }
-            @*<div class="form-group">
-                <div class="g-recaptcha" data-sitekey="6LcFqmMcAAAAACqhqWRRjODkb2-BsbFr3l_75Zsa"></div>
-            </div>*@
+            
         </section>
     </div>
 </div>
@@ -77,15 +74,7 @@ else
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 
-    @*<script src="https://www.google.com/recaptcha/api.js?render=@GoogleReCHAPTCHA.Value.ReCHAPTCHA_site_key" async defer></script>
-
-    <script>
-        grecaptcha.ready(function () {
-            grecaptcha.execute('6LcFqmMcAAAAACqhqWRRjODkb2-BsbFr3l_75Zsa', { action: 'submit' }).then(function (token) {
-                console.log(token);
-          });
-      });
-    </script>*@
+    
 
 
 }
