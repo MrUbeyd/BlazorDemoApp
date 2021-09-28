@@ -106,13 +106,13 @@
 
         private List<WeatherData> ReadCsv()
         {
-            weatherDatas = WeatherDataService.GetWeatherDatas(rangeStart, rangeEnd);
+            weatherDatas = WeatherDataService.GetWeatherDataFromSQL(rangeStart, rangeEnd);
             return weatherDatas;
         }
 
         private List<WeatherDataForGraph> ReadCsvForGraph()
         {
-            weatherDatasGraph = WeatherDataService.GetWeatherDataForGraph(rangeStart, rangeEnd);
+            weatherDatasGraph = WeatherDataService.GetWeatherDataForGraphSQL(rangeStart, rangeEnd);
             return weatherDatasGraph;
         }
 

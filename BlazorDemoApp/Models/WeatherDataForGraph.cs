@@ -12,8 +12,5 @@ namespace BlazorDemoApp.Data
         public int value { get; set; }
 
        
-
-
-
     }
 }
