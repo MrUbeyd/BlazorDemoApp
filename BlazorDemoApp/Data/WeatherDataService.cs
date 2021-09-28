@@ -207,7 +207,7 @@ namespace BlazorDemoApp.Data
             DateTime date;
             string condition;
 
-            SqlCommand cmd = new SqlCommand("SELECT * from TBL_WEATHER_DATA", conn.connection());
+            SqlCommand cmd = new SqlCommand("SELECT * from TBL_WEATHER_DATA ORDER BY CONVERT(datetime, DATE, 103) ASC", conn.connection());
             SqlDataReader dr = cmd.ExecuteReader();
             while (dr.Read())
             {
@@ -254,7 +254,7 @@ namespace BlazorDemoApp.Data
             int maxTemp = 0;
             DateTime date;
 
-            SqlCommand cmdDate = new SqlCommand("SELECT DATE,MAXTEMP from TBL_WEATHER_DATA", conn.connection());
+            SqlCommand cmdDate = new SqlCommand("SELECT DATE,MAXTEMP from TBL_WEATHER_DATA ORDER BY CONVERT(datetime, DATE, 103) ASC", conn.connection());
             SqlDataReader dr = cmdDate.ExecuteReader();
 
             while (dr.Read())
