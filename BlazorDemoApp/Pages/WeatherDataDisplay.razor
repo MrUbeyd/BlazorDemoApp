@@ -106,7 +106,7 @@
 
         private List<WeatherData> ReadCsv()
         {
-            weatherDatas = WeatherDataService.GetWeatherDataFromSQL(rangeStart, rangeEnd);
+            weatherDatas = WeatherDataService.GetWeatherDataFromSqlEfCore(rangeStart, rangeEnd);
             return weatherDatas;
         }
 

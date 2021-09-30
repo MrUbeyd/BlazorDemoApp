@@ -282,5 +282,19 @@ namespace BlazorDemoApp.Data
         }
 
 
+        public List<WeatherData> GetWeatherDataFromSqlEfCore(DateTime startDate, DateTime endDate)
+        {
+            List<WeatherData> weatherDataList = new List<WeatherData>();
+            
+            WeatherDbContext weatherDbContext = new WeatherDbContext();
+
+            var results = weatherDbContext.weatherData.Where(w => w.Date <= endDate && w.Date >= startDate.AddDays(-1)).ToList();
+
+            weatherDataList = results;
+
+            return weatherDataList;
+        }
+
+
     }
 }

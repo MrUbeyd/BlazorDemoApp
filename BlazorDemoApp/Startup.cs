@@ -62,7 +62,9 @@ namespace BlazorDemoApp
             services.AddSingleton<WeatherForecastService>();
 
             services.AddScoped<WeatherDataService>();
+
             
+                       
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
